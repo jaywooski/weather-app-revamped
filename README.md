@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Weather App Revamped
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+This here is my weather app 2.0. It is created with 'create-react-app' and Features include: 
+- Saving location history
+- Updating background pic to location of city (pending)
+- Mobile Responsiveness / PWA (Progressive Web App)
+- OpenWeatherMap API
+- mui framework or chakra UI
 
 ## Available Scripts
 
