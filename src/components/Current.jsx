@@ -21,10 +21,10 @@ const Current = ({ problem, weather, location }, value) => {
                       )
                   ) : null
                 }
-                  <CardBody>
+                  <CardBody sx={{}}>
                       {
                         weather && weather.current && weather.current.weather.map((condition) => (
-                          <Image key={condition.id} src={`https://openweathermap.org/img/wn/${condition.icon}@2x.png`} />
+                            <Image sx={{ marginX: 'auto', width: 150}} key={condition.id} src={`https://openweathermap.org/img/wn/${condition.icon}@2x.png`} />
                         )
                         )
                       }

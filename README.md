@@ -3,7 +3,23 @@
 ## Features
 This here is my weather app 2.0. It is created with 'create-react-app' and Features include: 
 - Saving location history
-- Updating background pic to location of city (pending)
+- Updating background pic to location of city based on current conditions(pending):
+    ### `The different types of backgrounds would include:`
+    -  Thunderstorm: Thunderstorm
+    -  Drizzle: Drizzle
+    -  Rain: Rain
+    -  Snow: Snow
+    -  Mist: Mist
+    -  Smoke: Smoke
+    -  Haze: Haze
+    -  Dust: Dust
+    -  Fog: Fog
+    -  Sand: Sand
+    -  Ash: Ash
+    -  Squall: Squall
+    -  Tornado: Tornado
+    -  Clear: Clear
+    -  Clouds: Clouds
 - Mobile Responsiveness / PWA (Progressive Web App)
 - OpenWeatherMap API
 - mui framework or chakra UI
