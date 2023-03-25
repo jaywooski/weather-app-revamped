@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Text, Stack, Divider, Box, Alert, AlertTitle, AlertIcon } from '@chakra-ui/react'
 
-const Current = ({ problem }) => {
+const Current = ({ problem, weather, location }) => {
   return (
       <div>
           {(!problem) ? (
@@ -11,14 +11,15 @@ const Current = ({ problem }) => {
                       <Heading >Nashville</Heading>
                   </CardHeader>
                   <CardBody>
-                      <Image src='https://media.istockphoto.com/id/1200224188/photo/white-clouds-and-sun-in-blue-sky.jpg?s=612x612&w=is&k=20&c=pR09pii9qKClD1Vn5uhmLZ-9xnCMYoy6oMtNOqM7jM4=' />
+                      <Image src={/*weather.current.weather[0].icon*/null} />
                       <Divider />
                       <Box sx={{
                           display: 'flex', justifyContent: 'space-around'
                       }}>
                           <Heading size='md'>
                               {/* current conditions */}
-                              Sunny {/*hardcode for now */}
+                              {/* Sunny hardcode for now */}
+                              
                           </Heading>
                           <Text fontSize='md' fontWeight='bolder'>60°F</Text>
                       </Box>

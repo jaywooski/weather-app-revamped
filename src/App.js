@@ -14,7 +14,8 @@ import SliderTabs from "./components/SliderTabs";
 
 function App() {
 	// State configurations
-	const [data, setData] = useState({});
+	const [weatherData, setWeatherData] = useState({});
+	const [locationData, setLocationData] = useState({});
 	const [location, setLocation] = useState([]);
 	// const [location, setLocation] = useState(["nosh", "tn", "usa"]);
 
@@ -86,16 +87,16 @@ function App() {
 			place = location;
 			console.log(place);
 			const spot = await fetch(url);
-			const locationData = await spot.json();
+			const locationInfo = await spot.json();
 			// console.log(locationData); // this should help me get the location
-			if (place.length !== 0 && locationData.length == 0) {
+			if (place.length !== 0 && locationInfo.length == 0) {
 				setLoadingErr(
 					`No data found for ${place}. Please check your spelling!`
 				);
 				setLocation([]);
 				throw new Error("No data found, Try checking your spelling!");
 			}
-			return locationData;
+			return locationInfo;
 		} catch (error) {
 			console.error(error);
 		}
@@ -105,8 +106,9 @@ function App() {
 		const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${API_KEY}`;
 		try {
 			const weather = await fetch(url);
-			const weatherData = await weather.json();
-			console.log(weatherData);
+			const weatherInfo = await weather.json();
+			console.log(weatherInfo);
+			return weatherInfo;
 		} catch (error) {
 			console.log(error);
 		}
@@ -117,15 +119,17 @@ function App() {
 		place = location;
 		try {
 			const newArr = await breakdownInput(place);
-			const locationData = await fetchLocationData(newArr);
+			const locationInfo = await fetchLocationData(newArr);
 			setLocation([]); //clears data out of location state after fetching
-			console.log(locationData); // log data of location to console
+			setLocationData(locationInfo); // set location data to returned json object
+			console.log(locationInfo); // log data of location to console
 			/*Now access locationData and set it to show in next fetch */
-			const lat = locationData[0].lat;
-			const lon = locationData[0].lon;
+			const lat = locationInfo[0].lat;
+			const lon = locationInfo[0].lon;
 			const weather = await fetchWeatherData(lat, lon);
-			const data = await weather.json();
-			console.log("real data I want: " + data);
+			setWeatherData(weather); // set weather data to returned json object
+			console.log(weatherData);
+			// console.log("real data I want: " + data);
 		} catch (err) {
 			setLoadingErr("Whoops! Something went wrong!");
 			console.error(err);
@@ -151,7 +155,11 @@ function App() {
 				/>
 
 				{/* Current conditions */}
-				<SliderTabs problem={loadingErr} />
+				<SliderTabs
+					problem={loadingErr}
+					weather={weatherData}
+					location={locationData}
+				/>
 				{/* <Current />
 				<Forecast /> */}
 			</div>
