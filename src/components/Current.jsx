@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Text, Stack, Divider, Box } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Text, Stack, Divider, Box, Alert, AlertTitle, AlertIcon } from '@chakra-ui/react'
 
-const Current = (problem) => {
+const Current = ({ problem }) => {
   return (
       <div>
           {(!problem) ? (
@@ -24,7 +24,7 @@ const Current = (problem) => {
                       </Box>
                   </CardBody>
               </Card>
-          ) : null
+          ) : <Alert sx={{ minHeight: 250 }} status='error'><AlertIcon /><h2>{ problem }</h2></Alert>
 }
           
     </div>

@@ -15,8 +15,8 @@ import SliderTabs from "./components/SliderTabs";
 function App() {
 	// State configurations
 	const [data, setData] = useState({});
-	// const [location, setLocation] = useState([]);
-	const [location, setLocation] = useState(["nosh", "tn", "usa"]);
+	const [location, setLocation] = useState([]);
+	// const [location, setLocation] = useState(["nosh", "tn", "usa"]);
 
 	const [error, setError] = useState(null);
 	const [loadingErr, setLoadingErr] = useState(null);
@@ -34,6 +34,15 @@ function App() {
 			return () => clearTimeout(timer);
 		}
 	}, [error]);
+
+	useEffect(() => {
+		if (loadingErr) {
+			const timer = setTimeout(() => {
+				setLoadingErr(null);
+			}, 5000); // set error to null after 5 seconds
+			return () => clearTimeout(timer);
+		}
+	}, [loadingErr]);
 
 	// API KEY openWeatherMap API
 	const API_KEY = `cc742ab3f18c60ff03116b342797094a`;
@@ -63,48 +72,49 @@ function App() {
 			}
 			setLocation(newArray);
 			console.log(location);
-			return newArray;
+			return newArray; /*returns newArray which is the location */
 		} catch (error) {
-			// throw new error("Check your spelling!");
 			console.error(error);
 		}
 	}
 
 	async function fetchLocationData(place) {
-		place = location;
 		const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&appid=${API_KEY}`;
 		//Just want the api to fetch the first suggestion that pops up
 
 		try {
+			place = location;
 			console.log(place);
 			const spot = await fetch(url);
 			const locationData = await spot.json();
-			console.log(locationData); // this should help me get the location
-			if (locationData.length == 0) {
+			// console.log(locationData); // this should help me get the location
+			if (place.length !== 0 && locationData.length == 0) {
 				setLoadingErr(
 					`No data found for ${place}. Please check your spelling!`
 				);
 				setLocation([]);
 				throw new Error("No data found, Try checking your spelling!");
 			}
-		} catch (error) {}
+			return locationData;
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	//  data search
 	const searchLocation = async (place) => {
 		place = location;
-
 		try {
-			// const newArr = await breakdownInput(place);
-			const data = await fetchLocationData(place);
+			const newArr = await breakdownInput(place);
+			const data = await fetchLocationData(newArr);
 			setLocation([]); //clears data out of location state after fetching
-
-			/*Now access locationdata and set it to show in next fetch */
-			// console.log(newArr);
-			// console.log(location);
+			console.log(data); // log data of location to console
+			/*Now access locationData and set it to show in next fetch */
+			const lat = data[0].lat;
+			const lon = data[0].lon;
 		} catch (error) {
-			throw new Error("Uh oh! Check your spelling!");
-			// console.log(error);
+			setLoadingErr("Whoops! Something went wrong!");
+			console.log(error);
 		}
 	};
 
@@ -127,7 +137,7 @@ function App() {
 				/>
 
 				{/* Current conditions */}
-				<SliderTabs />
+				<SliderTabs problem={loadingErr} />
 				{/* <Current />
 				<Forecast /> */}
 			</div>

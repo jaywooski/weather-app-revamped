@@ -4,7 +4,7 @@ import Current from './Current'
 import Forecast from './Forecast'
 
 
-const SliderTabs = () => {
+const SliderTabs = ({ problem }) => {
   return (
       <div>
           <Tabs isFitted variant='enclosed'>
@@ -15,7 +15,7 @@ const SliderTabs = () => {
             <TabPanels>
               <TabPanel>
                 {/* <p>one!</p> */}
-                <Current />
+            <Current problem={problem} />
               </TabPanel>
               <TabPanel>
                 {/* <p>two!</p> */}
