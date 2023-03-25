@@ -80,12 +80,14 @@ function App() {
 	}
 
 	async function fetchLocationData(place) {
+		// This url is for the location retrieval
 		const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&appid=${API_KEY}`;
 		//Just want the api to fetch the first suggestion that pops up
 
 		try {
 			place = location;
 			console.log(place);
+
 			const spot = await fetch(url);
 			const locationInfo = await spot.json();
 			// console.log(locationData); // this should help me get the location
@@ -103,7 +105,7 @@ function App() {
 	}
 
 	async function fetchWeatherData(latitude, longitude) {
-		const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${API_KEY}`;
+		const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=imperial&exclude=minutely,hourly&appid=${API_KEY}`;
 		try {
 			const weather = await fetch(url);
 			const weatherInfo = await weather.json();
