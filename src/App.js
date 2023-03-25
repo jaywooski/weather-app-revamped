@@ -101,20 +101,34 @@ function App() {
 		}
 	}
 
+	async function fetchWeatherData(latitude, longitude) {
+		const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${API_KEY}`;
+		try {
+			const weather = await fetch(url);
+			const weatherData = await weather.json();
+			console.log(weatherData);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	//  data search
 	const searchLocation = async (place) => {
 		place = location;
 		try {
 			const newArr = await breakdownInput(place);
-			const data = await fetchLocationData(newArr);
+			const locationData = await fetchLocationData(newArr);
 			setLocation([]); //clears data out of location state after fetching
-			console.log(data); // log data of location to console
+			console.log(locationData); // log data of location to console
 			/*Now access locationData and set it to show in next fetch */
-			const lat = data[0].lat;
-			const lon = data[0].lon;
-		} catch (error) {
+			const lat = locationData[0].lat;
+			const lon = locationData[0].lon;
+			const weather = await fetchWeatherData(lat, lon);
+			const data = await weather.json();
+			console.log("real data I want: " + data);
+		} catch (err) {
 			setLoadingErr("Whoops! Something went wrong!");
-			console.log(error);
+			console.error(err);
 		}
 	};
 
