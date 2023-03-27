@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import axios from "axios";
+// import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
@@ -8,7 +8,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 // import Forecast from "./components/Forecast";
 import SliderTabs from "./components/SliderTabs";
 import SavedCities from "./components/SavedCities";
-
+import Localbase from "localbase";
 // import dotenv from "dotenv";
 
 // dotenv.config();
@@ -29,8 +29,12 @@ function App() {
 	/* Will create a dropdown box of potential queries the user may have meant to type.
 	May incorporate new self made functions or utilize google maps api */
 
+	// localbase(indexedDB) initialization
+	const db = new Localbase("db");
+
 	// useEffect hook for alert of error/ strictly used ofr validation of input to user
 	useEffect(() => {
+		setWeatherData([]);
 		if (error) {
 			const timer = setTimeout(() => {
 				setError(null);
@@ -48,20 +52,28 @@ function App() {
 		}
 	}, [loadingErr]);
 
+	/* Switching with indexedDB instead of localStorage */
 	useEffect(() => {
-		// log storedLocationData
-		const data = localStorage.getItem("cities");
-		if (data) {
-			// const cities = JSON.parse(data);
-			const cities = JSON.parse(data);
-			setStoredLocationData(cities);
-			localStorage.setItem("cities", cities);
-		}
-		localStorage.setItem(
-			"cities",
-			JSON.parse(breakdownInput(storedLocationData))
-		);
-		// console.log(JSON.parse(data));
+		db.collection("cities")
+			.get()
+			.then((cities) => {
+				console.log(cities);
+
+				/*Create empty array to hold all stored location data */
+				const tempArray = [];
+
+				/*returns an array of all cities */
+				cities.forEach((city) => {
+					// console.log(city.cityName);
+					const name = city.cityName;
+					tempArray.push(name.trim());
+
+					// console.log("tempArray: " + tempArray);
+				});
+
+				setStoredLocationData(tempArray);
+				console.log("state: " + storedLocationData);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -78,14 +90,27 @@ function App() {
 		// setStoredLocationData(data);
 		// console.log(storedLocationData);
 		// localStorage.setItem("cities", JSON.stringify(storedLocationData));
+		db.collection("cities")
+			.get()
+			.then((cities) => {
+				/*returns an array of all cities */
+				cities.forEach((city) => {
+					console.log(city.cityName);
+					// tempArray.push(city.cityName);
+				});
+				console.log("state: " + storedLocationData);
+			});
 	}, [storedLocationData]);
+
+	useEffect(() => {
+		console.log(`location has been set to ${location}`);
+	}, [location]);
 
 	// API KEY openWeatherMap API
 	const API_KEY = `cc742ab3f18c60ff03116b342797094a`;
 
 	// event handlers
 	async function handleChange(e) {
-		e.preventDefault();
 		const query = e.target.value;
 		// const result = await breakdownInput(query);
 		setLocation(query);
@@ -94,7 +119,7 @@ function App() {
 		// console.log(result.json());
 	}
 
-	function handleData({ target }) {
+	async function handleData({ target }) {
 		// e.preventDefault();
 		try {
 			const city = target.value;
@@ -103,10 +128,10 @@ function App() {
 			// 	return city;
 			// }
 			// return [city];
-			setLocation(city);
-			console.log(arr);
-			console.log(location);
-			searchLocation(city);
+			// setLocation(arr);
+			console.log("arr: " + arr + " " + typeof arr);
+			console.log("city: " + city + " " + typeof city);
+			// searchLocation(city);
 		} catch (error) {
 			console.error(error);
 		}
@@ -114,6 +139,7 @@ function App() {
 
 	async function breakdownInput(str) {
 		try {
+			str.toLowerCase();
 			// breakdown input
 			// step 1: test to see if it's an array or string
 			if (typeof str === "string") {
@@ -155,7 +181,7 @@ function App() {
 		//Just want the api to fetch the first suggestion that pops up
 
 		try {
-			place = location;
+			// place = location;
 			// console.log(place);
 
 			const spot = await fetch(url);
@@ -169,17 +195,34 @@ function App() {
 				throw new Error("No data found, Try checking your spelling!");
 			}
 
-			// Set place to localStorage
+			// Set place to indexedDB
 
 			const updatedData = [...storedLocationData, location];
-			console.log(updatedData);
 			// filter and remove duplicate values
-			const returnData = updatedData.filter(
-				(city, i) => updatedData.indexOf(city) === i
-			);
-			localStorage.setItem("cities", JSON.stringify(returnData));
-			console.log(JSON.parse(localStorage.getItem("cities")));
+			const returnData = updatedData
+				.map((city) => {
+					if (typeof city === "string") {
+						city.toLowerCase();
+					}
+				})
+				.filter((city, i) => updatedData.indexOf(city) === i);
+			// console.log(returnData);
+
+			returnData.forEach((city, i) => {
+				db.collection("cities").add(
+					{
+						id: i,
+						cityName: city.toLowerCase(),
+					},
+					`key-${i}`
+				);
+			});
+
 			setStoredLocationData(returnData);
+			/* Switching with indexedDB instead of localStorage
+			// localStorage.setItem("cities", JSON.stringify(returnData));
+			// console.log(JSON.parse(localStorage.getItem("cities")));
+			*/
 
 			return locationInfo;
 		} catch (error) {
@@ -200,31 +243,44 @@ function App() {
 	}
 
 	//  data search
-	const searchLocation = async (place, e) => {
-		// setLocation(place);
+	const searchLocation = async (city) => {
 		/******************************************* */
 		try {
-			place = location;
+			var newArr = "";
+			if (location && location != "") {
+				const place = await location.toLowerCase();
+				// const loc = await setLocation(place);
+				console.log(place);
+				newArr = await breakdownInput(place);
+				// continue();
+			}
 
-			const newArr = await breakdownInput(place);
+			newArr = [city];
+			console.log(newArr);
+
 			const locationInfo = await fetchLocationData(newArr);
 			// const locationInfo = await fetchLocationData(location);
-			// console.log(locationInfo); // log data of location to console
+			console.log(locationInfo); // log data of location to console
+			setLocationData(locationInfo); // set location data to returned json object
+
 			/*Now access locationData and set it to show in next fetch */
 			const lat = locationInfo[0].lat;
 			const lon = locationInfo[0].lon;
 			const weather = await fetchWeatherData(lat, lon);
-			setLocation(""); //clears data out of location state after fetching
-			setLocationData(locationInfo); // set location data to returned json object
 			setWeatherData(weather); // set weather data to returned json object
+			setLocation(""); //clears data out of location state after fetching
 			// console.log(weatherData);
 			// console.log("real data I want: " + data);
 		} catch (err) {
 			// setError(
 			// 	"Please check your spelling. Input a valid city name, state code, and/or country code"
 			// );
-			// setLoadingErr("Whoops! Something went wrong!");
+			setLoadingErr("Whoops! Something went wrong!");
+			setLocationData({});
 			console.error(err);
+		} finally {
+			console.log("weatherData: " + typeof weatherData);
+			console.log("locationData: " + locationData[0]);
 		}
 		/************************************************* */
 	};

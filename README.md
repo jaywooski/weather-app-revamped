@@ -3,6 +3,7 @@
 ## Features
 This here is my weather app 2.0. It is created with 'create-react-app' and Features include: 
 - Saving location history
+    - Options to delete recently saved locations
 - Updating background pic to location of city based on current conditions(pending):
     ### `The different types of backgrounds would include:`
     -  Thunderstorm: Thunderstorm

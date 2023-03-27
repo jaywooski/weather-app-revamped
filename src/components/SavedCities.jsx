@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react'
+import { Box, Button, Text, } from '@chakra-ui/react'
 import React from 'react'
 
 const SavedCities = ({ cities, searchCityWeather }) => {
@@ -9,7 +9,12 @@ const SavedCities = ({ cities, searchCityWeather }) => {
 
   return (
       <div>
-          <Box >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-around'
+        }}  
+      >
               { Array.isArray(cities) && cities?.length !== 0 && cities.map((city, i) => (
                   
                   <Button
@@ -19,8 +24,9 @@ const SavedCities = ({ cities, searchCityWeather }) => {
                       variant='outline'
                       value={city}
                       onClick={searchCityWeather}
+                      sx={{bgColor:'darkblue', zIndex: 10, textTransform: 'capitalize'}}
                 >
-                    {city}
+                  {city}
                 </Button>
                   
               ) )}
