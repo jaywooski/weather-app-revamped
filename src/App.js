@@ -17,7 +17,7 @@ function App() {
 	// State configurations
 	const [weatherData, setWeatherData] = useState({});
 	const [locationData, setLocationData] = useState({});
-	const [location, setLocation] = useState([]);
+	const [location, setLocation] = useState("");
 
 	// localStorage state config
 	const [storedLocationData, setStoredLocationData] = useState([]);
@@ -53,28 +53,28 @@ function App() {
 	}, [loadingErr]);
 
 	/* Switching with indexedDB instead of localStorage */
-	useEffect(() => {
-		db.collection("cities")
-			.get()
-			.then((cities) => {
-				console.log(cities);
+	// useEffect(() => {
+	// 	db.collection("cities")
+	// 		.get()
+	// 		.then((cities) => {
+	// 			console.log(cities);
 
-				/*Create empty array to hold all stored location data */
-				const tempArray = [];
+	// 			/*Create empty array to hold all stored location data */
+	// 			const tempArray = [];
 
-				/*returns an array of all cities */
-				cities.forEach((city) => {
-					// console.log(city.cityName);
-					const name = city.cityName;
-					tempArray.push(name.trim());
+	// 			/*returns an array of all cities */
+	// 			cities.forEach((city) => {
+	// 				// console.log(city.cityName);
+	// 				const name = city.cityName;
+	// 				tempArray.push(name.trim());
 
-					// console.log("tempArray: " + tempArray);
-				});
+	// 				// console.log("tempArray: " + tempArray);
+	// 			});
 
-				setStoredLocationData(tempArray);
-				console.log("state: " + storedLocationData);
-			});
-	}, []);
+	// 			setStoredLocationData(tempArray);
+	// 			console.log("state: " + storedLocationData);
+	// 		});
+	// }, []);
 
 	useEffect(() => {
 		if (
@@ -90,48 +90,52 @@ function App() {
 		// setStoredLocationData(data);
 		// console.log(storedLocationData);
 		// localStorage.setItem("cities", JSON.stringify(storedLocationData));
-		db.collection("cities")
-			.get()
-			.then((cities) => {
-				/*returns an array of all cities */
-				cities.forEach((city) => {
-					console.log(city.cityName);
-					// tempArray.push(city.cityName);
-				});
-				console.log("state: " + storedLocationData);
-			});
+
+		/**Start here */
+		// db.collection("cities")
+		// 	.get()
+		// 	.then((cities) => {
+		// 		/*returns an array of all cities */
+		// 		cities.forEach((city) => {
+		// 			console.log(city.cityName);
+		// 			// tempArray.push(city.cityName);
+		// 			// setStoredLocationData(location);
+		// 		});
+		// console.log("state: " + storedLocationData);
+		// });/*End here */
 	}, [storedLocationData]);
 
 	useEffect(() => {
-		console.log(`location has been set to ${location}`);
+		// console.log(`location has been set to ${location}`);
 	}, [location]);
 
 	// API KEY openWeatherMap API
 	const API_KEY = `cc742ab3f18c60ff03116b342797094a`;
 
 	// event handlers
-	async function handleChange(e) {
+	function handleChange(e) {
 		const query = e.target.value;
-		// const result = await breakdownInput(query);
 		setLocation(query);
-		// console.log(typeof result);
-		// console.log(result);
-		// console.log(result.json());
 	}
 
-	async function handleData({ target }) {
-		// e.preventDefault();
+	async function handleData(e, city) {
+		e.preventDefault();
 		try {
-			const city = target.value;
-			const arr = [city];
-			// if (typeof city === "string") {
-			// 	return city;
-			// }
-			// return [city];
-			// setLocation(arr);
-			console.log("arr: " + arr + " " + typeof arr);
+			city = e.target.value.trim();
 			console.log("city: " + city + " " + typeof city);
-			// searchLocation(city);
+			// // searchLocationTarg(city);
+			searchLocation(city);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async function handleSearch(e) {
+		e.preventDefault();
+
+		try {
+			searchLocation(location);
+			console.log(`location: ${location}`);
 		} catch (error) {
 			console.error(error);
 		}
@@ -154,51 +158,37 @@ function App() {
 				);
 				throw new Error("Invalid Input type!!! Blank value");
 			}
-			// // newyork, ny would be a string
-			// // Join array elements into a string and then split on commas
-			// const newArray = str.join(",").split(",");
 
-			if (str.length < 2 || str.length > 3) {
+			// Will come back and fix this piece here for validation of location
+
+			if (str.length < 2 || str[1].length < 2 || str.length > 3) {
 				// setLocation([]);
 				setError(
 					"Please enter a valid city, state code and/or country code"
 				);
 				throw new Error("Invalid input type");
 			}
-			// // setLocation(newArray);
-			// console.log(newArray);
-			// return newArray; /*returns newArray which is the location */
+
 			setLocation(str);
-			return str;
+			/**add updatedata function right here potentially????? */
+			setStoredLocationData(str);
+			updateData(str);
+
+			return str; //str is equal to location
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
-	async function fetchLocationData(place) {
-		// This url is for the location retrieval
-		const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
-		//Just want the api to fetch the first suggestion that pops up
-
+	// This function will save info in storedLocationData
+	function updateData(loc) {
+		// Set place to indexedDB
 		try {
-			// place = location;
-			// console.log(place);
+			const updatedData = [...storedLocationData, loc];
 
-			const spot = await fetch(url);
-			const locationInfo = await spot.json();
-			// console.log(locationData); // this should help me get the location
-			if (place.length !== 0 && locationInfo.length == 0) {
-				setLoadingErr(
-					`No data found for ${place}. Please check your spelling!`
-				);
-				// setLocation([]);
-				throw new Error("No data found, Try checking your spelling!");
-			}
-
-			// Set place to indexedDB
-
-			const updatedData = [...storedLocationData, location];
 			// filter and remove duplicate values
+			console.log(`updatedData: ${updatedData}`);
+
 			const returnData = updatedData
 				.map((city) => {
 					if (typeof city === "string") {
@@ -206,7 +196,7 @@ function App() {
 					}
 				})
 				.filter((city, i) => updatedData.indexOf(city) === i);
-			// console.log(returnData);
+			console.log(returnData);
 
 			returnData.forEach((city, i) => {
 				db.collection("cities").add(
@@ -219,12 +209,32 @@ function App() {
 			});
 
 			setStoredLocationData(returnData);
-			/* Switching with indexedDB instead of localStorage
-			// localStorage.setItem("cities", JSON.stringify(returnData));
-			// console.log(JSON.parse(localStorage.getItem("cities")));
-			*/
+			// return returnData;
+		} catch (error) {
+			console.error(error);
+		}
+	}
 
-			return locationInfo;
+	async function fetchLocationData(place) {
+		try {
+			// This url is for the location retrieval
+			const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
+			//Just want the api to fetch the first suggestion that pops up
+			// which is why limit=1 in url. It can go up to 5... keep that in
+			// mind for suggestions potentially in future
+
+			const spot = await fetch(url);
+			const locationInfo = await spot.json(); // location info returned as json
+
+			if (place.length !== 0 && locationInfo.length == 0) {
+				setLoadingErr(
+					`No data found for ${place}. Please check your spelling!`
+				);
+				// setLocation(""); setLocation back to original state
+				throw new Error("No data found, Try checking your spelling!");
+			}
+
+			return locationInfo; // returns location info back as json data
 		} catch (error) {
 			console.error(error);
 		}
@@ -235,32 +245,25 @@ function App() {
 		try {
 			const weather = await fetch(url);
 			const weatherInfo = await weather.json();
-			// console.log(weatherInfo);
-			return weatherInfo;
+			return weatherInfo; // returns weather info as json data
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
 	//  data search
-	const searchLocation = async (city) => {
+	const searchLocation = async (place) => {
 		/******************************************* */
 		try {
-			var newArr = "";
-			if (location && location != "") {
-				const place = await location.toLowerCase();
-				// const loc = await setLocation(place);
-				console.log(place);
-				newArr = await breakdownInput(place);
-				// continue();
-			}
-
-			newArr = [city];
-			console.log(newArr);
+			const newArr = await breakdownInput(place);
 
 			const locationInfo = await fetchLocationData(newArr);
-			// const locationInfo = await fetchLocationData(location);
-			console.log(locationInfo); // log data of location to console
+			// fetchLocationData is expecting an array
+
+			// updateData();
+			// const storedInfo = await cityStore.json();
+			// console.log(`returned data is: ${updateData()}`);
+
 			setLocationData(locationInfo); // set location data to returned json object
 
 			/*Now access locationData and set it to show in next fetch */
@@ -269,8 +272,6 @@ function App() {
 			const weather = await fetchWeatherData(lat, lon);
 			setWeatherData(weather); // set weather data to returned json object
 			setLocation(""); //clears data out of location state after fetching
-			// console.log(weatherData);
-			// console.log("real data I want: " + data);
 		} catch (err) {
 			// setError(
 			// 	"Please check your spelling. Input a valid city name, state code, and/or country code"
@@ -279,8 +280,10 @@ function App() {
 			setLocationData({});
 			console.error(err);
 		} finally {
-			console.log("weatherData: " + typeof weatherData);
-			console.log("locationData: " + locationData[0]);
+			/* ************ commented outtttt */
+			// console.log("weatherData: " + typeof weatherData);
+			// console.log("locationData: " + locationData[0]);
+			/*********** commented out          */
 		}
 		/************************************************* */
 	};
@@ -298,7 +301,7 @@ function App() {
 				<SearchBar
 					place={location}
 					updatePlace={handleChange}
-					search={searchLocation}
+					search={handleSearch}
 					errorMsg={error}
 					onSuggestions={null}
 				/>

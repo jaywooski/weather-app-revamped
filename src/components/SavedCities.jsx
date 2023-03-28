@@ -15,7 +15,7 @@ const SavedCities = ({ cities, searchCityWeather }) => {
           justifyContent: 'space-around'
         }}  
       >
-              { Array.isArray(cities) && cities?.length !== 0 && cities.map((city, i) => (
+              { Array.isArray(cities) && cities/*?.length !== 0 */ && cities.map((city, i) => (
                   
                   <Button
                       key={i}
