@@ -135,7 +135,11 @@ function App() {
 
 		try {
 			searchLocation(location);
-			console.log(`location: ${location}`);
+			console.log(
+				`location: ${JSON.stringify(
+					location
+				)} + type of location: ${typeof location}`
+			);
 		} catch (error) {
 			console.error(error);
 		}
@@ -143,11 +147,11 @@ function App() {
 
 	async function breakdownInput(str) {
 		try {
-			str.toLowerCase();
 			// breakdown input
 			// step 1: test to see if it's an array or string
 			if (typeof str === "string") {
 				// Convert string to array by splitting on commas
+				str.toLowerCase().trim();
 				str = str.split(",");
 			}
 
@@ -171,8 +175,10 @@ function App() {
 
 			setLocation(str);
 			/**add updatedata function right here potentially????? */
-			setStoredLocationData(str);
-			updateData(str);
+			// setStoredLocationData(str);
+			// updateData(str);
+
+			console.log(`str: ${str}`);
 
 			return str; //str is equal to location
 		} catch (error) {
@@ -187,22 +193,30 @@ function App() {
 			const updatedData = [...storedLocationData, loc];
 
 			// filter and remove duplicate values
-			console.log(`updatedData: ${updatedData}`);
+			console.log(`updatedData: ${JSON.stringify(updatedData)}`);
 
 			const returnData = updatedData
-				.map((city) => {
+				.map((city, i) => {
 					if (typeof city === "string") {
-						city.toLowerCase();
+						return city.toLowerCase();
 					}
+					// city is coming back as an array i.e
+					// ["Tampa", " fl"]
+					// city.toLowerCase();
+					city = city.join(",");
+					console.log(`city type is ` + typeof city);
+					/**UNCOMMENT WHEN DONE */
+					console.log(`city: ${JSON.stringify(city)}`);
+					return city; /*.split(",")*/
 				})
 				.filter((city, i) => updatedData.indexOf(city) === i);
-			console.log(returnData);
+			console.log(`returnData: ${returnData}`);
 
 			returnData.forEach((city, i) => {
 				db.collection("cities").add(
 					{
 						id: i,
-						cityName: city.toLowerCase(),
+						cityName: city,
 					},
 					`key-${i}`
 				);
@@ -256,7 +270,7 @@ function App() {
 		/******************************************* */
 		try {
 			const newArr = await breakdownInput(place);
-
+			updateData(newArr);
 			const locationInfo = await fetchLocationData(newArr);
 			// fetchLocationData is expecting an array
 
