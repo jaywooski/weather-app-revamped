@@ -53,28 +53,28 @@ function App() {
 	}, [loadingErr]);
 
 	/* Switching with indexedDB instead of localStorage */
-	// useEffect(() => {
-	// 	db.collection("cities")
-	// 		.get()
-	// 		.then((cities) => {
-	// 			console.log(cities);
+	useEffect(() => {
+		db.collection("cities")
+			.get()
+			.then((cities) => {
+				console.log(cities);
 
-	// 			/*Create empty array to hold all stored location data */
-	// 			const tempArray = [];
+				/*Create empty array to hold all stored location data */
+				const tempArray = [];
 
-	// 			/*returns an array of all cities */
-	// 			cities.forEach((city) => {
-	// 				// console.log(city.cityName);
-	// 				const name = city.cityName;
-	// 				tempArray.push(name.trim());
+				/*returns an array of all cities */
+				cities.forEach((city) => {
+					// console.log(city.cityName);
+					const name = city.cityName;
+					tempArray.push(name.trim());
 
-	// 				// console.log("tempArray: " + tempArray);
-	// 			});
+					// console.log("tempArray: " + tempArray);
+				});
 
-	// 			setStoredLocationData(tempArray);
-	// 			console.log("state: " + storedLocationData);
-	// 		});
-	// }, []);
+				setStoredLocationData(tempArray);
+				console.log("state: " + storedLocationData);
+			});
+	}, []);
 
 	useEffect(() => {
 		if (
@@ -187,7 +187,8 @@ function App() {
 	}
 
 	// This function will save info in storedLocationData
-	function updateData(loc) {
+	// Only want it to occur, when location info is not empty
+	async function updateData(loc) {
 		// Set place to indexedDB
 		try {
 			const updatedData = [...storedLocationData, loc];
@@ -195,22 +196,28 @@ function App() {
 			// filter and remove duplicate values
 			console.log(`updatedData: ${JSON.stringify(updatedData)}`);
 
-			const returnData = updatedData
-				.map((city, i) => {
-					if (typeof city === "string") {
-						return city.toLowerCase();
-					}
-					// city is coming back as an array i.e
-					// ["Tampa", " fl"]
-					// city.toLowerCase();
-					city = city.join(",");
-					console.log(`city type is ` + typeof city);
-					/**UNCOMMENT WHEN DONE */
-					console.log(`city: ${JSON.stringify(city)}`);
-					return city; /*.split(",")*/
-				})
-				.filter((city, i) => updatedData.indexOf(city) === i);
-			console.log(`returnData: ${returnData}`);
+			var newData = updatedData.map((city) => {
+				if (typeof city === "string") {
+					return city.toLowerCase();
+				}
+				// city is coming back as an array i.e
+				// ["Tampa", " fl"]
+				// city.toLowerCase();
+				city = city.join(",").toLowerCase();
+				console.log(`city type is ` + typeof city);
+				/**UNCOMMENT WHEN DONE */
+				console.log(`city: ${JSON.stringify(city)}`);
+				return city; /*.split(",")*/
+			});
+
+			console.log(`newData: ${newData}`);
+
+			var returnData = newData.filter(
+				(city, i) => newData.indexOf(city) === i
+			);
+
+			console.log(`returnData: ${JSON.stringify(returnData)}`);
+			setStoredLocationData(returnData);
 
 			returnData.forEach((city, i) => {
 				db.collection("cities").add(
@@ -222,7 +229,6 @@ function App() {
 				);
 			});
 
-			setStoredLocationData(returnData);
 			// return returnData;
 		} catch (error) {
 			console.error(error);
@@ -240,13 +246,18 @@ function App() {
 			const spot = await fetch(url);
 			const locationInfo = await spot.json(); // location info returned as json
 
-			if (place.length !== 0 && locationInfo.length == 0) {
+			console.log(`locationInfo: ${locationInfo}`);
+
+			if (place.length !== 0 && locationInfo.length === 0) {
 				setLoadingErr(
 					`No data found for ${place}. Please check your spelling!`
 				);
 				// setLocation(""); setLocation back to original state
 				throw new Error("No data found, Try checking your spelling!");
 			}
+
+			// Think this is where I want to call it due to the check above^^
+			updateData(place);
 
 			return locationInfo; // returns location info back as json data
 		} catch (error) {
@@ -270,7 +281,7 @@ function App() {
 		/******************************************* */
 		try {
 			const newArr = await breakdownInput(place);
-			updateData(newArr);
+			// updateData(newArr);
 			const locationInfo = await fetchLocationData(newArr);
 			// fetchLocationData is expecting an array
 
