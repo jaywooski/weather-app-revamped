@@ -53,9 +53,9 @@ function App() {
 	}, [loadingErr]);
 
 	useEffect(() => {
-		if (location) {
-			searchLocation(location);
-		}
+		// if (location) {
+		// 	searchLocation(location);
+		// }
 	});
 
 	/* Switching with indexedDB instead of localStorage */
