@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
+  color: white;
 }
 
 code {
@@ -14,10 +15,22 @@ code {
 }
 
 .App {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: space-around; */
     flex-direction: column;
     background: radial-gradient(red, yellow);
     height: 100vh;
 }
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  outline: 2px solid purple;
+  padding: 12px;
+  min-height: 150px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.slider-tabs {}

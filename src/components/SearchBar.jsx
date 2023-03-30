@@ -4,14 +4,14 @@ import React from "react";
 
 const SearchBar = ({place, updatePlace, search, errorMsg, onSuggestions}) => {
 	return (
-		<div>
+		<div className="sticky-top">
 			<Box>
 				<form
 					onSubmit={search}
 					autoComplete="off"
 				>
 					<FormControl isInvalid={errorMsg}>
-						<FormLabel sx={{textAlign:'center'}}>City Name</FormLabel>
+						<FormLabel sx={{textAlign:'center', textColor:'white'}}>City Name</FormLabel>
 						<InputGroup>
 						<Input
 							variant="filled"
@@ -34,7 +34,7 @@ const SearchBar = ({place, updatePlace, search, errorMsg, onSuggestions}) => {
 			{/* Set alert to show only when error is discovered and set time for it to 
 			be shown before it disappears */}
 					{errorMsg ? <FormErrorMessage>{errorMsg}</FormErrorMessage> 
-					: <FormHelperText>Enter city name, state abbreviations, and/or country abbreviations</FormHelperText>
+					: <FormHelperText sx={{textColor:'white'}}>Enter city name, state abbreviations, and/or country abbreviations</FormHelperText>
 				}
 				</FormControl>
 

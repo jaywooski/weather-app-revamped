@@ -15,15 +15,17 @@ const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
           display: 'flex',
           justifyContent: 'space-around',
           maxWidth: '600px',
-          paddingX: 16,
+          paddingX: 30,
+          outline: '2px solid black',
           marginX: 'auto',
-          overflowX: 'auto'
+          overflowX: 'auto',
+          color:'white'
         }}  
       >
               { Array.isArray(cities) && cities/*?.length !== 0 */ && cities.map((city, i) => (
                   
                 <ButtonGroup
-                  size='md'
+                  size='sm'
                   isAttached
                   variant='ghost'
                   // value={city}

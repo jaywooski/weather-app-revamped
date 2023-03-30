@@ -10,7 +10,14 @@ const Current = ({ problem, weather, location }) => {
         <div>
             {(!problem && weather && location[0]) ? (
                 
-                <Card sx={{ mx: 'auto', bgColor: 'rgba(0,0,0,0.2)', outline: '1px solid white', width: '80%', minHeight: 250 }}>
+                  <Card sx={{
+                      mx: 'auto',
+                      bgColor: 'rgba(0,0,0,0.2)',
+                      outline: '1px solid white',
+                      width: '80%',
+                      minHeight: 250,
+                      color: 'white'
+                  }}>
                     <CardHeader>
                         <Heading >{location && location[0] && location[0].name}</Heading>
                     </CardHeader>
