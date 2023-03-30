@@ -15,7 +15,7 @@ const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
           display: 'flex',
           justifyContent: 'space-around',
           maxWidth: '600px',
-          paddingX: 30,
+          padding: 10,
           outline: '2px solid black',
           marginX: 'auto',
           overflowX: 'auto',
@@ -47,10 +47,16 @@ const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
 
                 </Button>
                   <CloseButton
-                    // sx={{ bgColor: 'red' }}
+                    sx={{
+                      bgColor: 'red',
+                      display: 'flex',
+                      alignContent: 'center',
+                      outline: '1px solid white'
+                    }}
+
                     onClick={deleteCity}
                     aria-label='delete city'
-                    size='sm'
+                    size='md'
                   />
                 </ButtonGroup>
                   

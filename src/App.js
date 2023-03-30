@@ -9,6 +9,8 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import SliderTabs from "./components/SliderTabs";
 import SavedCities from "./components/SavedCities";
 import Localbase from "localbase";
+import VideoBackground from "./components/VideoBackground";
+import weathervid from "./assets/weather.mp4";
 // import dotenv from "dotenv";
 
 // dotenv.config();
@@ -374,6 +376,9 @@ function App() {
 	return (
 		<ChakraProvider>
 			<div className="App">
+				{/* Video background looping as background */}
+				<VideoBackground vidSource="./assets/weather.mp4" />
+
 				{/* searchbar component */}
 				<SearchBar
 					place={location}

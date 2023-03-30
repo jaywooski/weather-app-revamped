@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
+  height: 100%;
   color: white;
 }
 
@@ -19,8 +19,8 @@ code {
     /* flex-direction: column; */
     /* justify-content: space-around; */
     flex-direction: column;
-    background: radial-gradient(red, yellow);
-    height: 100vh;
+    /* background: radial-gradient(red, yellow);  */
+      height: 100%;
 }
 
 .sticky-top {
@@ -33,4 +33,26 @@ code {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.slider-tabs {}
+.slider-tabs {
+  /*styles here*/
+}
+
+
+.video-backgrd {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.video-backgrd video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+}
