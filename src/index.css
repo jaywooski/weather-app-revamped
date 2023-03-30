@@ -15,6 +15,9 @@ code {
 
 .App {
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: space-around;
+    flex-direction: column;
+    background: radial-gradient(red, yellow);
+    height: 100vh;
 }

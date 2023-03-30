@@ -11,7 +11,7 @@ const SearchBar = ({place, updatePlace, search, errorMsg, onSuggestions}) => {
 					autoComplete="off"
 				>
 					<FormControl isInvalid={errorMsg}>
-						<FormLabel>City Name</FormLabel>
+						<FormLabel sx={{textAlign:'center'}}>City Name</FormLabel>
 						<InputGroup>
 						<Input
 							variant="filled"

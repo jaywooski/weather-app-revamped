@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./index.css";
 // import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
@@ -52,6 +52,12 @@ function App() {
 		}
 	}, [loadingErr]);
 
+	useEffect(() => {
+		if (location) {
+			searchLocation(location);
+		}
+	});
+
 	/* Switching with indexedDB instead of localStorage */
 	useEffect(() => {
 		db.collection("cities")
@@ -84,25 +90,16 @@ function App() {
 			// if stored location data array surpasses 6 elements do this...
 			// keeps it at 6
 			storedLocationData.shift();
+			// const index = storedLocationData.length;
+			// db.collection("cities")
+			// 	.doc(`key-${index}`)
+			// 	.set({
+			// 		id: index - (index - 1),
+			// 		cityName: storedLocationData[index],
+			// 	});
 		}
-		// setStoredLocationData(JSON.stringify(localStorage.getItem("cities")));
-		// console.log("data: " + data);
-		// setStoredLocationData(data);
-		// console.log(storedLocationData);
-		// localStorage.setItem("cities", JSON.stringify(storedLocationData));
 
-		/**Start here */
-		// db.collection("cities")
-		// 	.get()
-		// 	.then((cities) => {
-		// 		/*returns an array of all cities */
-		// 		cities.forEach((city) => {
-		// 			console.log(city.cityName);
-		// 			// tempArray.push(city.cityName);
-		// 			// setStoredLocationData(location);
-		// 		});
-		// console.log("state: " + storedLocationData);
-		// });/*End here */
+		/*End here */
 	}, [storedLocationData]);
 
 	useEffect(() => {
@@ -122,7 +119,7 @@ function App() {
 		e.preventDefault();
 		try {
 			city = e.target.value.trim();
-			console.log("city: " + city + " " + typeof city);
+			// console.log("city: " + city + " " + typeof city);
 			// // searchLocationTarg(city);
 			searchLocation(city);
 		} catch (error) {
@@ -135,11 +132,34 @@ function App() {
 
 		try {
 			searchLocation(location);
-			console.log(
-				`location: ${JSON.stringify(
-					location
-				)} + type of location: ${typeof location}`
-			);
+			// console.log(
+			// 	`location: ${JSON.stringify(
+			// 		location
+			// 	)} + type of location: ${typeof location}`
+			// );
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async function handleDelete(e) {
+		try {
+			// need event target to equal the value of the
+			const city = e.target.previousElementSibling.value; // from stack overflow
+
+			if (e.target.previousElementSibling) {
+				deleteData(city);
+				console.log("prev element is " + JSON.stringify(city));
+			}
+			db.collection("cities")
+				.doc({ cityName: city })
+				.delete()
+				.then((response) => {
+					console.log(`Delete Successful!`);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
 		} catch (error) {
 			console.error(error);
 		}
@@ -170,15 +190,13 @@ function App() {
 				setError(
 					"Please enter a valid city, state code and/or country code"
 				);
+				setLocation("");
 				throw new Error("Invalid input type");
 			}
 
 			setLocation(str);
-			/**add updatedata function right here potentially????? */
-			// setStoredLocationData(str);
-			// updateData(str);
 
-			console.log(`str: ${str}`);
+			// console.log(`str: ${str}`);
 
 			return str; //str is equal to location
 		} catch (error) {
@@ -194,7 +212,7 @@ function App() {
 			const updatedData = [...storedLocationData, loc];
 
 			// filter and remove duplicate values
-			console.log(`updatedData: ${JSON.stringify(updatedData)}`);
+			// console.log(`updatedData: ${JSON.stringify(updatedData)}`);
 
 			var newData = updatedData.map((city) => {
 				if (typeof city === "string") {
@@ -204,32 +222,65 @@ function App() {
 				// ["Tampa", " fl"]
 				// city.toLowerCase();
 				city = city.join(",").toLowerCase();
-				console.log(`city type is ` + typeof city);
-				/**UNCOMMENT WHEN DONE */
-				console.log(`city: ${JSON.stringify(city)}`);
+				// console.log(`city type is ` + typeof city);
+				// /**UNCOMMENT WHEN DONE */
+				// console.log(`city: ${JSON.stringify(city)}`);
 				return city; /*.split(",")*/
 			});
 
-			console.log(`newData: ${newData}`);
+			// console.log(`newData: ${newData}`);
 
 			var returnData = newData.filter(
 				(city, i) => newData.indexOf(city) === i
 			);
 
-			console.log(`returnData: ${JSON.stringify(returnData)}`);
+			// console.log(`returnData: ${JSON.stringify(returnData)}`);
 			setStoredLocationData(returnData);
 
 			returnData.forEach((city, i) => {
-				db.collection("cities").add(
-					{
-						id: i,
-						cityName: city,
-					},
-					`key-${i}`
-				);
+				db.collection("cities")
+					.add(
+						{
+							id: i,
+							cityName: city,
+						},
+						`key-${i}`
+					)
+					.then((response) =>
+						console.log(`Added city successfully!`)
+					);
 			});
 
 			// return returnData;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async function deleteData(loc) {
+		try {
+			/*
+			if loc match db object's key name... delete it 
+			from indexedDB database
+			 */
+
+			const cities = [...storedLocationData];
+			// console.log(JSON.stringify(cities));
+
+			// filter through state array and return all
+			// locations that do not match the selected city
+			// aka "loc"
+
+			const resultArray = cities.filter((city) => city !== loc);
+			// It should automatically update in UseEffect hook
+			setStoredLocationData(resultArray); // set state to returned Array
+			// console.log(
+			// 	`result array of storedLocationData is ${JSON.stringify(
+			// 		storedLocationData
+			// 	)}`
+			// );
+
+			db.collection("cities").doc({ cityName: loc }).delete();
 		} catch (error) {
 			console.error(error);
 		}
@@ -246,7 +297,7 @@ function App() {
 			const spot = await fetch(url);
 			const locationInfo = await spot.json(); // location info returned as json
 
-			console.log(`locationInfo: ${locationInfo}`);
+			// console.log(`locationInfo: ${locationInfo}`);
 
 			if (place.length !== 0 && locationInfo.length === 0) {
 				setLoadingErr(
@@ -270,6 +321,7 @@ function App() {
 		try {
 			const weather = await fetch(url);
 			const weatherInfo = await weather.json();
+			console.log(weatherInfo);
 			return weatherInfo; // returns weather info as json data
 		} catch (error) {
 			console.log(error);
@@ -331,20 +383,19 @@ function App() {
 					onSuggestions={null}
 				/>
 
-				{/* Saved cities stack goes here */}
-				<SavedCities
-					cities={storedLocationData}
-					searchCityWeather={handleData}
-				/>
-
 				{/* Current conditions */}
 				<SliderTabs
 					problem={loadingErr}
 					weather={weatherData}
 					location={locationData}
 				/>
-				{/* <Current />
-				<Forecast /> */}
+
+				{/* Saved cities stack goes here */}
+				<SavedCities
+					cities={storedLocationData}
+					searchCityWeather={handleData}
+					deleteCity={handleDelete}
+				/>
 			</div>
 		</ChakraProvider>
 	);

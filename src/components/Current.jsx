@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Text, Stack, Divider, Box, Alert, AlertTitle, AlertIcon } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Text, Stack, Divider, Box, Alert, AlertTitle, AlertIcon, StackDivider } from '@chakra-ui/react'
 
 const Current = ({ problem, weather, location }) => {
 
@@ -38,7 +38,34 @@ const Current = ({ problem, weather, location }) => {
                                 {weather && weather.current && weather.current.weather[0].main}
                             </Heading>
                             <Text fontSize='md' fontWeight='bolder'>{weather && weather.current && (weather.current.temp) +"°F"}</Text>
-                        </Box>
+                          </Box>
+                          <Divider />
+                          <Box sx={{ display: 'flex' }}
+                          >
+                            <Stack
+                                sx={{
+                                      marginTop: 4,
+                                        width: '50%'
+                                }}
+                                direction='column'
+                                //   divider={<StackDivider />}
+                            >
+                                <Text>{weather && weather.current && `Wind: ` + weather.current.wind_speed + ' mph' }</Text>
+                                <Text>{weather && weather.current && `Humidity: ` + weather.current.humidity + '%' }</Text>
+
+                            </Stack>
+                            <Stack
+                                sx={{
+                                    marginTop: 4,
+                                        width: '50%'
+                                }}
+                                direction='column'
+                            >
+                                <Text>{weather && weather.current && `UV Index: ` + weather.current.uvi }</Text>
+                                <Text>{weather && weather.current && `Clouds: ` + weather.current.clouds + '%' }</Text>
+                            </Stack>
+                              
+                          </Box>
                     </CardBody>
                 </Card>
             ) : null
