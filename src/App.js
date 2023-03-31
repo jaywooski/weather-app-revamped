@@ -15,7 +15,9 @@ import VideoBackground from "./components/VideoBackground";
 import weathervid from "./assets/weather.mp4";
 // import dotenv from "dotenv";
 
-// dotenv.config();
+require("dotenv").config();
+
+const API_KEY = process.env.API_KEY;
 
 function App() {
 	// State configurations
@@ -111,7 +113,6 @@ function App() {
 	}, [location]);
 
 	// API KEY openWeatherMap API
-	const API_KEY = `cc742ab3f18c60ff03116b342797094a`;
 
 	// event handlers
 	function handleChange(e) {
