@@ -20,21 +20,34 @@ code {
     /* justify-content: space-around; */
     flex-direction: column;
     /* background: radial-gradient(red, yellow);  */
-      height: 100%;
+    background-image: url("./assets/landscape.jpg");
+      background-attachment: fixed;
+      /* background-position: ; */
+      background-repeat: repeat-y;
+      background-size: cover;
+      height: 100vh;
 }
 
 .sticky-top {
   position: sticky;
   top: 0;
   z-index: 10;
-  outline: 2px solid purple;
+  outline: 1px solid forestgreen;
   padding: 12px;
   min-height: 150px;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.slider-tabs {
+.saved-cities {
   /*styles here*/
+  scroll-behavior: smooth;
+    scroll-margin: 0;
+    scroll-snap-align: center;
+    scrollbar-color:
+      /*rgba(0, 0, 0, 0.7)*/
+      red;
+    scrollbar-width: thin;
+    padding-bottom: 15px
 }
 
 
@@ -55,4 +68,9 @@ code {
   transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
+}
+@media (min-height: 920px) {
+  .App {
+    height: 100vh;
+  }
 }

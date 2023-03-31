@@ -7,11 +7,12 @@ const Forecast = ( { problem, weather, location } ) => {
       {(!problem && weather && location[0]) ? (
         <Box sx={{
           mx: 'auto',
-          bgColor: 'rgba(0,0,0,0.2)',
+          // bgColor: 'rgba(0,0,0,0.2)',
           outline: '1px solid white',
           width: '80%',
           minHeight: 250,
-          // overflowY: 'scroll',
+          maxHeight: 520,
+          overflowY: 'scroll',
           // height: `40%`
         }}>
           {(weather && weather.daily && weather.daily.length !== 0) ? (
@@ -20,7 +21,7 @@ const Forecast = ( { problem, weather, location } ) => {
                           <Card
                             key={i}
                             sx={{
-                              bgColor: 'rgba(0,0,0,0.4)',
+                              bgColor: 'rgba(0,0,0,0.6)',
                               outline: '1px solid white',
                               textColor: 'white'
                             }}

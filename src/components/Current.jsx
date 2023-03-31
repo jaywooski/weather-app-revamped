@@ -12,14 +12,14 @@ const Current = ({ problem, weather, location }) => {
                 
                   <Card sx={{
                       mx: 'auto',
-                      bgColor: 'rgba(0,0,0,0.2)',
+                      bgColor: 'rgba(0,0,0,0.6)',
                       outline: '1px solid white',
                       width: '80%',
                       minHeight: 250,
                       color: 'white'
                   }}>
                     <CardHeader>
-                        <Heading >{location && location[0] && location[0].name}</Heading>
+                        <Heading sx={{textAlign:'center'}} >{location && location[0] && location[0].name}</Heading>
                     </CardHeader>
                     {(weather && weather.alerts && weather.alerts.length !== 0) ? (
                         
@@ -47,7 +47,8 @@ const Current = ({ problem, weather, location }) => {
                             <Text fontSize='md' fontWeight='bolder'>{weather && weather.current && (weather.current.temp) +"°F"}</Text>
                           </Box>
                           <Divider />
-                          <Box sx={{ display: 'flex' }}
+                          <Box
+                              sx={{ display: 'flex', textAlign: 'center' }}
                           >
                             <Stack
                                 sx={{

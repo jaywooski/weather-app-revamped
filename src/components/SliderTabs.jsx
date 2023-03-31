@@ -29,7 +29,7 @@ const SliderTabs = ({ problem, weather, location }) => {
              _hover={{ bgColor: 'orange.500', color: 'white' }}
             _active={{ bgColor:'blue.900', color:'blue.200'}}
           >
-            5-Day Forecast
+            8-Day Forecast
           </Tab>
             </TabList>
             <TabPanels>

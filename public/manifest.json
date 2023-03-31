@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name":"Weather App by Jaywooski",
+  "short_name": "WooWeather",
   "icons": [
     {
       "src": "favicon.ico",

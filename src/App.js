@@ -1,5 +1,7 @@
 import React from "react";
 import "./index.css";
+// import "~slick-carousel/slick/slick.css";
+// import "~slick-carousel/slick/slick-theme.css";
 // import axios from "axios";
 import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
@@ -377,7 +379,7 @@ function App() {
 		<ChakraProvider>
 			<div className="App">
 				{/* Video background looping as background */}
-				<VideoBackground vidSource="./assets/weather.mp4" />
+				{/* <VideoBackground  /> */}
 
 				{/* searchbar component */}
 				<SearchBar
@@ -388,18 +390,18 @@ function App() {
 					onSuggestions={null}
 				/>
 
-				{/* Current conditions */}
-				<SliderTabs
-					problem={loadingErr}
-					weather={weatherData}
-					location={locationData}
-				/>
-
 				{/* Saved cities stack goes here */}
 				<SavedCities
 					cities={storedLocationData}
 					searchCityWeather={handleData}
 					deleteCity={handleDelete}
+				/>
+
+				{/* Current conditions */}
+				<SliderTabs
+					problem={loadingErr}
+					weather={weatherData}
+					location={locationData}
 				/>
 			</div>
 		</ChakraProvider>

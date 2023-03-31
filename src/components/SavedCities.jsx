@@ -1,35 +1,75 @@
 import { DeleteIcon } from '@chakra-ui/icons'
-import { Box, Button, ButtonGroup, CloseButton, IconButton, Text, } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, CloseButton, Heading, IconButton, Text, } from '@chakra-ui/react'
 import React from 'react'
+import Slider from 'react-slick';
 
 const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
     // const lat = localStorage.getItem()
     // console.log(cities);
 
     // storedLocationData.map((city, i) => // do this )
+  
+   const settings = {
+      dots: true,
+      fade: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
 
   return (
-      <div>
+    <div
+    // style={{ marg: '14px' }}
+    >
+      <Heading
+        as='h3'
+        size='lg'
+        sx={{
+          textAlign: 'center',
+          color: 'white',
+          // outline: '1px solid blue',
+          marginTop: '28px'
+        }}
+      >
+        Saved Cities
+      </Heading>
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-around',
-          maxWidth: '600px',
-          padding: 10,
-          outline: '2px solid black',
+         
+          maxWidth: '80%',
+          padding: 5,
+          // outline: '2px solid black',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          borderRadius: 20,
           marginX: 'auto',
-          overflowX: 'auto',
+          marginBottom: '14px',
+          overflow: 'auto',
           color:'white'
         }}  
+        className='saved-cities'
       >
+
+      {/* Will implement carousel later */}
+      {/* <Slider {...settings}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+
+        </Slider> */}
+
               { Array.isArray(cities) && cities/*?.length !== 0 */ && cities.map((city, i) => (
                   
                 <ButtonGroup
                   size='sm'
                   isAttached
                   variant='ghost'
-                  // value={city}
                   key={i}
+                  sx={{
+                    marginX: '60px'
+                  }}
                 >
                   
 
@@ -60,7 +100,7 @@ const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
                   />
                 </ButtonGroup>
                   
-              ) )}
+              ))}
           </Box>
     </div>
   )
