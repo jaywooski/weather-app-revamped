@@ -80,6 +80,8 @@ function App() {
 				setStoredLocationData(tempArray);
 				// console.log("state: " + storedLocationData);
 			});
+		/*Use this line to disregard warning from building process (npm build) */
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
