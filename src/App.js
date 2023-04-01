@@ -15,9 +15,14 @@ import VideoBackground from "./components/VideoBackground";
 import weathervid from "./assets/weather.mp4";
 // import dotenv from "dotenv";
 
-require("dotenv").config();
+// require("dotenv").config();
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY;
+const LOCATION_URL = process.env.REACT_APP_LOCATION_API;
+const WEATHER_URL = process.env.REACT_APP_WEATHER_API;
+console.log(API_KEY);
+console.log(LOCATION_URL);
+console.log(WEATHER_URL);
 
 function App() {
 	// State configurations
@@ -294,7 +299,9 @@ function App() {
 	async function fetchLocationData(place) {
 		try {
 			// This url is for the location retrieval
-			const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
+			// const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
+			const url_concat = `${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
+			const url = LOCATION_URL + url_concat;
 			//Just want the api to fetch the first suggestion that pops up
 			// which is why limit=1 in url. It can go up to 5... keep that in
 			// mind for suggestions potentially in future
@@ -322,7 +329,9 @@ function App() {
 	}
 
 	async function fetchWeatherData(latitude, longitude) {
-		const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=imperial&exclude=minutely,hourly&lang=en&appid=${API_KEY}`;
+		// const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=imperial&exclude=minutely,hourly&lang=en&appid=${API_KEY}`;
+		const url_concat = `${latitude}&lon=${longitude}&units=imperial&exclude=minutely,hourly&lang=en&appid=${API_KEY}`;
+		const url = WEATHER_URL + url_concat;
 		try {
 			const weather = await fetch(url);
 			const weatherInfo = await weather.json();
