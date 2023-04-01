@@ -26,6 +26,7 @@ code {
       background-repeat: repeat-y;
       background-size: cover;
       height: 120vh;
+      width: 100vw;
 }
 
 .sticky-top {
@@ -76,8 +77,8 @@ code {
 }
 @media (min-height: 920px) {
   .App {
-    height: 100%;
-      background-size: contain;
+    height: 100vh;
+      background-size: cover;
       background-repeat: repeat-y;
   }
 }
