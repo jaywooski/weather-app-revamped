@@ -20,9 +20,6 @@ import weathervid from "./assets/weather.mp4";
 const API_KEY = process.env.REACT_APP_API_KEY;
 const LOCATION_URL = process.env.REACT_APP_LOCATION_API;
 const WEATHER_URL = process.env.REACT_APP_WEATHER_API;
-console.log(API_KEY);
-console.log(LOCATION_URL);
-console.log(WEATHER_URL);
 
 function App() {
 	// State configurations
@@ -89,7 +86,7 @@ function App() {
 				});
 
 				setStoredLocationData(tempArray);
-				console.log("state: " + storedLocationData);
+				// console.log("state: " + storedLocationData);
 			});
 	}, []);
 
@@ -335,7 +332,7 @@ function App() {
 		try {
 			const weather = await fetch(url);
 			const weatherInfo = await weather.json();
-			console.log(weatherInfo);
+			// console.log(weatherInfo);
 			return weatherInfo; // returns weather info as json data
 		} catch (error) {
 			console.log(error);
