@@ -290,7 +290,7 @@ function App() {
 	async function fetchLocationData(place) {
 		try {
 			// This url is for the location retrieval
-			// const url = `http://api.openweathermap.org/geo/1.0/direct?q=${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
+
 			const url_concat = `${place[0]},${place[1]},${place[2]}&limit=1&lang=en&appid=${API_KEY}`;
 			const url = LOCATION_URL + url_concat;
 			//Just want the api to fetch the first suggestion that pops up
@@ -320,7 +320,6 @@ function App() {
 	}
 
 	async function fetchWeatherData(latitude, longitude) {
-		// const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&units=imperial&exclude=minutely,hourly&lang=en&appid=${API_KEY}`;
 		const url_concat = `${latitude}&lon=${longitude}&units=imperial&exclude=minutely,hourly&lang=en&appid=${API_KEY}`;
 		const url = WEATHER_URL + url_concat;
 		try {
