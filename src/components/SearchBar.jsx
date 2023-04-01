@@ -1,5 +1,5 @@
 import { Search2Icon } from "@chakra-ui/icons";
-import { Alert, AlertIcon, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { /*Alert, AlertIcon, Button,*/ Box, FormControl, FormErrorMessage, FormHelperText, FormLabel, IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import React from "react";
 
 const SearchBar = ({place, updatePlace, search, errorMsg, onSuggestions}) => {

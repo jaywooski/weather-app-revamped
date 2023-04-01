@@ -1,7 +1,7 @@
-import { DeleteIcon } from '@chakra-ui/icons'
-import { Box, Button, ButtonGroup, CloseButton, Heading, IconButton, Text, } from '@chakra-ui/react'
+// import { DeleteIcon } from '@chakra-ui/icons'
+import { Box, Button, ButtonGroup, CloseButton, Heading, /*IconButton*/ } from '@chakra-ui/react'
 import React from 'react'
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 
 const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
     // const lat = localStorage.getItem()
@@ -9,19 +9,17 @@ const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
 
     // storedLocationData.map((city, i) => // do this )
   
-   const settings = {
-      dots: true,
-      fade: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1
-    };
+  //  const settings = {
+  //     dots: true,
+  //     fade: true,
+  //     infinite: true,
+  //     speed: 500,
+  //     slidesToShow: 1,
+  //     slidesToScroll: 1
+  //   };
 
   return (
-    <div
-    // style={{ marg: '14px' }}
-    >
+    <div>
       <Heading
         as='h3'
         size='lg'

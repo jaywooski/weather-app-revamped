@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, CardFooter, Heading, Image, Text, Stack, Divider, Box, Alert, AlertTitle, AlertIcon, StackDivider } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, Heading, Image, Text, Stack, Divider, Box, Alert,  AlertIcon, } from '@chakra-ui/react'
 
 const Current = ({ problem, weather, location }) => {
 

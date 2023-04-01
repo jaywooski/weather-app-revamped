@@ -1,21 +1,13 @@
 import React from "react";
 import "./index.css";
-// import "~slick-carousel/slick/slick.css";
-// import "~slick-carousel/slick/slick-theme.css";
-// import axios from "axios";
+
 import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-// import Current from "./components/Current";
-// import Forecast from "./components/Forecast";
+import { ChakraProvider } from "@chakra-ui/react";
+
 import SliderTabs from "./components/SliderTabs";
 import SavedCities from "./components/SavedCities";
 import Localbase from "localbase";
-import VideoBackground from "./components/VideoBackground";
-import weathervid from "./assets/weather.mp4";
-// import dotenv from "dotenv";
-
-// require("dotenv").config();
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const LOCATION_URL = process.env.REACT_APP_LOCATION_API;
@@ -33,7 +25,7 @@ function App() {
 	const [error, setError] = useState(null);
 	const [loadingErr, setLoadingErr] = useState(null);
 
-	const [suggestions, setSuggestions] = useState([]); // will set for suture feature
+	// const [suggestions, setSuggestions] = useState([]); // will set for suture feature
 	/* Will create a dropdown box of potential queries the user may have meant to type.
 	May incorporate new self made functions or utilize google maps api */
 
