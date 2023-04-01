@@ -25,7 +25,7 @@ code {
       /* background-position: ; */
       background-repeat: repeat-y;
       background-size: cover;
-      height: 100vh;
+      height: 120vh;
 }
 
 .sticky-top {
@@ -47,7 +47,12 @@ code {
       /*rgba(0, 0, 0, 0.7)*/
       red;
     scrollbar-width: thin;
-    padding-bottom: 15px
+    padding-bottom: 15px;
+    }
+    
+    .slider-tabs {
+    
+      /* padding-bottom: 100px; */
 }
 
 
@@ -71,6 +76,8 @@ code {
 }
 @media (min-height: 920px) {
   .App {
-    height: 100vh;
+    height: 100%;
+      background-size: contain;
+      background-repeat: repeat-y;
   }
 }

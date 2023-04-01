@@ -11,7 +11,7 @@ const SliderTabs = ({ problem, weather, location }) => {
         isFitted
         variant='enclosed-colored'
         size='lg'
-        defaultIndex={1}
+        defaultIndex={0}
       >
 
         <TabList
