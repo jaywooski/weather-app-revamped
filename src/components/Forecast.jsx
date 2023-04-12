@@ -15,6 +15,20 @@ const Forecast = ( { problem, weather, location } ) => {
           overflowY: 'scroll',
           // height: `40%`
         }}>
+          <Heading
+            sx={{
+              textAlign: 'center',
+              color: 'white',
+              position: 'sticky',
+              zIndex: 5,
+              top: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)'
+
+            }}
+          >
+            {location && location[0] && location[0].name}
+          </Heading>
+          
           {(weather && weather.daily && weather.daily.length !== 0) ? (
                         
                         (weather.daily.map((day, i) => (

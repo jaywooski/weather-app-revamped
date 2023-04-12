@@ -17,9 +17,12 @@ const SearchBar = ({place, updatePlace, search, errorMsg, onSuggestions}) => {
 							variant="filled"
 							placeholder="Enter location (e.g. Los Angeles, CA, US or New York City, NY)"
 							value={place}
-							type='text'
-							onChange={updatePlace}
-							/>
+								type='text'
+								foc
+								onChange={updatePlace}
+								color='white'
+							_placeholder={{ color: 'blue.400'}}	
+						/>
 						<InputRightElement>
 							<IconButton
 								type="button"
