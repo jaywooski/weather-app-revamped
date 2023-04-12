@@ -18,8 +18,8 @@ code {
 
     flex-direction: column;
 
-    background-image: url("./assets/landscape.jpg");
-      /* background-attachment: fixed; */
+    /* background-image: url("./assets/landscape.jpg"); */
+      background-attachment: fixed;
       background-repeat: repeat-y;
       background-size: cover;
       height: 120vh;
@@ -61,9 +61,10 @@ code {
   position: fixed;
   top: 0;
   left: 0;
+  
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   z-index: -1;
 }
 
@@ -71,7 +72,7 @@ code {
   position: absolute;
   /* top: 50%; */
     /* left: 50%; */
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;

@@ -19,7 +19,10 @@ function App() {
 	const [weatherData, setWeatherData] = useState({});
 	const [locationData, setLocationData] = useState({});
 	const [location, setLocation] = useState("");
+
+	// States for video background functionality
 	const [condition, setCondition] = useState("clear");
+	const [nightStatus, setNightStatus] = useState(null);
 
 	// localStorage state config
 	const [storedLocationData, setStoredLocationData] = useState([]);
@@ -352,8 +355,8 @@ function App() {
 			/*Now access locationData and set it to show in next fetch */
 			const lat = locationInfo[0].lat;
 			const lon = locationInfo[0].lon;
-			const weather = await fetchWeatherData(lat, lon);
-			setWeatherData(weather); // set weather data to returned json object
+			const weather_info = await fetchWeatherData(lat, lon);
+			setWeatherData(weather_info); // set weather data to returned json object
 			setLocation(""); //clears data out of location state after fetching
 		} catch (err) {
 			// setError(
@@ -382,8 +385,8 @@ function App() {
 			<div className="App">
 				{/* Video background looping as background */}
 				<VideoBackground
-					vidSource={condition}
-					setVidSrc={setCondition}
+					weather={weatherData}
+					/*isEvening={....boolean true or false....} */
 				/>
 
 				{/* searchbar component */}
