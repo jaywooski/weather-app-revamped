@@ -26,7 +26,8 @@ const VideoBackground = ({ weather }) => {
   // console.log(condition);
 
 
-  // state for this component
+  // Maybe use useEffect hook in App.js to fetch most recent city weatherdata
+  //  of last searched city in indexedDB
   
     
 
