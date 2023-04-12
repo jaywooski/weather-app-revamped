@@ -15,14 +15,11 @@ code {
 }
 
 .App {
-  /* display: flex; */
-    /* flex-direction: column; */
-    /* justify-content: space-around; */
+
     flex-direction: column;
-    /* background: radial-gradient(red, yellow);  */
+
     background-image: url("./assets/landscape.jpg");
-      background-attachment: fixed;
-      /* background-position: ; */
+      /* background-attachment: fixed; */
       background-repeat: repeat-y;
       background-size: cover;
       height: 120vh;
@@ -69,11 +66,12 @@ code {
 
 .video-backgrd video {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  /* top: 50%; */
+    /* left: 50%; */
   transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
+  object-fit: cover;
 }
 @media (min-height: 920px) {
   .App {

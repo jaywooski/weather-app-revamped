@@ -7,6 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import SliderTabs from "./components/SliderTabs";
 import SavedCities from "./components/SavedCities";
+import VideoBackground from "./components/VideoBackground";
 import Localbase from "localbase";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -18,6 +19,7 @@ function App() {
 	const [weatherData, setWeatherData] = useState({});
 	const [locationData, setLocationData] = useState({});
 	const [location, setLocation] = useState("");
+	const [condition, setCondition] = useState("clear");
 
 	// localStorage state config
 	const [storedLocationData, setStoredLocationData] = useState([]);
@@ -379,7 +381,10 @@ function App() {
 		<ChakraProvider>
 			<div className="App">
 				{/* Video background looping as background */}
-				{/* <VideoBackground  /> */}
+				<VideoBackground
+					vidSource={condition}
+					setVidSrc={setCondition}
+				/>
 
 				{/* searchbar component */}
 				<SearchBar

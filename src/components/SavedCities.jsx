@@ -78,7 +78,7 @@ const SavedCities = ({ cities, searchCityWeather, deleteCity }) => {
                       variant='outline'
                       value={city}
                       onClick={searchCityWeather}
-                      sx={{bgColor:'darkblue', zIndex: 10, textTransform: 'capitalize'}}
+                      sx={{bgColor:'darkblue', zIndex: 1, textTransform: 'capitalize'}}
                 >
                   {city}
                   
